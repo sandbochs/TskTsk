@@ -4,7 +4,7 @@ class List < ActiveRecord::Base
 
   validates :name, presence: true
 
-  has_many :tasks, dependant: :destroy
+  has_many :todos, dependent: :destroy
   belongs_to :user, foreign_key: :user_id
 
 end
