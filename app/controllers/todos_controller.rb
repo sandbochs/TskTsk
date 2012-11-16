@@ -9,10 +9,13 @@ class TodosController < ApplicationController
     todo_params[:user_id] = current_user.id
 
     list = List.find(params[:list_id])
-    todo = list.todos.new(todo_params)
+    @todo = list.todos.new(todo_params)
 
-    if todo.save
-      redirect_to list, notice: "Created task: #{params[:todo][:description]}"
+    if @todo.save
+      respond_to do |format|
+        format.html { redirect_to list }
+        format.js
+      end
     else
       redirect_to list, notice: "Failed to create task."
     end
@@ -41,7 +44,7 @@ class TodosController < ApplicationController
     if Todo.exists?(params[:id])
       redirect_to list_path(params[:list_id]), notice: "Failed to delete task: #{todo_description}"
      else
-     redirect_to list_path(params[:list_id]), notice: "Deleted task: #{todo_description}"
+      redirect_to list_path(params[:list_id]), notice: "Deleted task: #{todo_description}"
     end
   end
 

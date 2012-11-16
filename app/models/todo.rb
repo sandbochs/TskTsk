@@ -9,6 +9,7 @@ class Todo < ActiveRecord::Base
   belongs_to :list, foreign_key: :list_id
   belongs_to :user, foreign_key: :user_id
 
-  scope :active, where(:completed == false)
+  scope :active, where(completed: false)
+  scope :completed, where(completed: true)
 
 end

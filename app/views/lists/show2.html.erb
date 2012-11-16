@@ -1,0 +1,9 @@
+<h4>List: <%= @list.name %></h4>
+<%= notice %>
+<%=render 'todos/create' %>
+<% @todos.each_with_index do |t, i| %>
+  <br><%= "#{i+1})   #{t.description}" %>
+  <%= link_to 'Edit', edit_list_todo_path(@list, t) %>
+  <%= link_to 'Delete',  [@list, t], method: :delete %>
+<% end %>
+<p><%= link_to 'Back', lists_path %>

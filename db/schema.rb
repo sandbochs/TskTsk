@@ -24,12 +24,12 @@ ActiveRecord::Schema.define(:version => 20121116000231) do
 
   create_table "todos", :force => true do |t|
     t.string   "description"
-    t.boolean  "completed"
+    t.boolean  "completed",    :default => false
     t.datetime "completed_at"
     t.integer  "list_id"
     t.integer  "user_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   add_index "todos", ["list_id"], :name => "index_todos_on_list_id"

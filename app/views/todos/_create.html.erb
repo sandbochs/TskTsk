@@ -1,4 +1,4 @@
-<%= form_for([@list, @todo]) do |f| %>
+<%= form_for [@list, @todo], remote: true do |f| %>
   <%= f.text_field :description %>
   <%= f.submit %>
 <% end %>

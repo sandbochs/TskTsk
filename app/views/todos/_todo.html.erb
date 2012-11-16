@@ -1,0 +1,5 @@
+<%= form_for [@list, todo] do |f| %>
+  <%= f.check_box :completed %>
+  <%= f.label :complete, todo.description %>
+  <%= link_to "(remove)", [@list, todo], method: :delete, data: { confirm: "Are you sure?" } %>
+<% end %>

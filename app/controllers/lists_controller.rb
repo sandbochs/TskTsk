@@ -23,6 +23,10 @@ class ListsController < ApplicationController
     @list = current_user.lists.find(params[:id])
     @todos = @list.todos
     @todo = Todo.new
+
+    @active_todos = @list.todos.active
+    @completed_todos = @list.todos.completed
+
   end
 
   def edit
