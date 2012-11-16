@@ -1,14 +1,17 @@
 class ListsController < ApplicationController
+  before_filter :authenticate_user!
+  load_and_authorize_resource
 
   def index
-    @lists = List.all
+    @lists = current_user.lists
     @list = List.new
   end
 
   def create
-    list = List.new
-    list.update_attributes(params[:list])
-
+    list_params = params[:list]
+    list_params[:user_id] = current_user.id
+    list = List.new(list_params)
+    
     if list.save
       redirect_to lists_path, notice: "Created list: #{params[:list][:name]}"
     else
@@ -17,17 +20,17 @@ class ListsController < ApplicationController
   end
 
   def show
-    @list = List.find(params[:id])
+    @list = current_user.lists.find(params[:id])
     @todos = @list.todos
     @todo = Todo.new
   end
 
   def edit
-    @list = List.find(params[:id])
+    @list = current_user.lists.find(params[:id])
   end
 
   def update
-    list = List.find(params[:id])
+    list = current_user.lists.find(params[:id])
     list_name = list.name
 
     if list.update_attributes(params[:list])
@@ -38,11 +41,11 @@ class ListsController < ApplicationController
   end
 
   def destroy
-    id = params[:id]
-    list_name = List.find(id).name
-    List.destroy(id)
+    list = current_user.lists.find(params[:id])
+    list_name = list.name
+    list.destroy
 
-    if List.exists?(id)
+    if List.exists?(params[:id])
       redirect_to lists_path, notice: "Failed to delete #{list_name}"
     else
       redirect_to lists_path, notice: "Deleted list: #{list_name}"

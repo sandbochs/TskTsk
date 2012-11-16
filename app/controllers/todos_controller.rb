@@ -1,29 +1,30 @@
 class TodosController < ApplicationController
+  before_filter :authenticate_user!
+  load_and_authorize_resource
 
   def create
     # Add list_id to params
     todo_params = params[:todo]
     todo_params[:list_id] = params[:list_id]
+    todo_params[:user_id] = current_user.id
 
-    @list = List.find(params[:list_id])
-    todo = @list.todos.new
-
-    todo.update_attributes(todo_params)
+    list = List.find(params[:list_id])
+    todo = list.todos.new(todo_params)
 
     if todo.save
-      redirect_to @list, notice: "Created task: #{params[:todo][:description]}"
+      redirect_to list, notice: "Created task: #{params[:todo][:description]}"
     else
-      redirect_to @list, notice: "Failed to create task."
+      redirect_to list, notice: "Failed to create task."
     end
   end
 
   def edit
-    @list = List.find(params[:list_id])
+    @list = current_user.lists.find(params[:list_id])
     @todo = @list.todos.find(params[:id])
   end
 
   def update
-    todo = Todo.find(params[:id])
+    todo = current_user.todos.find(params[:id])
 
     if todo.update_attributes(params[:todo])
       redirect_to list_path(params[:list_id]), notice: "Updated to: #{params[:todo][:description]}"
@@ -33,11 +34,11 @@ class TodosController < ApplicationController
   end
 
   def destroy
-    id = params[:id]
-    todo_description = Todo.find(id).description
-    Todo.destroy(id)
+    todo = current_user.todos.find(params[:id])
+    todo_description = todo.description
+    todo.destroy
 
-    if Todo.exists?(id)
+    if Todo.exists?(params[:id])
       redirect_to list_path(params[:list_id]), notice: "Failed to delete task: #{todo_description}"
      else
      redirect_to list_path(params[:list_id]), notice: "Deleted task: #{todo_description}"
