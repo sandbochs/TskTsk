@@ -7,15 +7,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <h1>TskTsk</h1>
   <div id="user_nav">
   <% if current_user %>
-    Logged in as <%= current_user.username %>
-    <%= link_to "Log out", log_out_path %>
+  Welcome, <%= current_user.username %>!
+  <%= link_to "(logout)", log_out_path %>
   <% end %>
 </div>
-  <h1>TskTsk</h1>
+<div id="content">
   <%= alert %>
   <%= yield %>
-
+</div>
 </body>
 </html>

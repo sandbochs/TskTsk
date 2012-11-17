@@ -11,3 +11,33 @@
  *= require_self
  *= require_tree .
  */
+
+* {
+  font-family: helvetica;
+  background-color: #E0E4CC;
+}
+
+body {
+
+  padding-left: 200px;
+  padding-right: 200px;
+}
+
+h1 {
+  color: white;
+  background-color: #69D2E7;
+  font-family: helvetica;
+  font-size: 50px;
+  padding-top: 25px;
+  padding-left: 25px;
+  padding-bottom: 5px;
+  margin: 0px;
+}
+
+#user_nav, a {
+  color: #FA6900;
+  background-color: #A7DBD8;
+  text-decoration: none;
+  text-align: right;
+  padding-right: 10px;
+}
